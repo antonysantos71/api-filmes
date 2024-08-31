@@ -1,9 +1,23 @@
+import { AboutPage } from "./pages/about-page";
+import { DetailsFilm } from "./pages/details-film";
 import { Home } from "./pages/home";
+import {createBrowserRouter, RouterProvider} from "react-router-dom"
 
-export function App(){
-  return (
-    <div>
-      <Home/>
-    </div>
-  )
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/movie/:id",
+    element: <DetailsFilm/>,
+  },
+  {
+    path: "/about",
+    element: <AboutPage/>,
+  }
+]);
+
+export function App() {
+  return <RouterProvider router={router}/>
 }
