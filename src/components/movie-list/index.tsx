@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import { Star } from "lucide-react";
 
 interface IMoviesListProps {
   id: number;
@@ -55,12 +56,13 @@ export function MovieList() {
                 {movie.overview}
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-yellow-500 font-semibold text-xl">
-                  {movie.vote_average}
+                <span className="text-yellow-500 font-semibold text-md flex gap-1 items-center">
+                  <Star className="size-5"/>
+                  {movie.vote_average.toFixed(1)}
                 </span>
                 <div className="bg-gray-200 rounded-full p-1 px-2 text-xs font-semibold text-gray-700">
                   <span className="inline-block bg-yellow-400 h-2 w-2 rounded-full"></span>
-                  <span className="ml-1">Rating</span>
+                  <span className="ml-1">Avaliação</span>
                 </div>
               </div>
               <div className="w-full bg-blue-900 rounded-md flex justify-center mt-5 h-10">

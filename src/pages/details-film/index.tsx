@@ -54,7 +54,7 @@ export function DetailsFilm() {
             </p>
             <div className="flex items-center mt-2 text-gray-700 dark:text-gray-300">
               <Star className="h-5 w-5 mr-2 text-yellow-500" />
-              <span>Avaliação: {movie.vote_average}</span>
+              <span>Avaliação: {movie.vote_average.toFixed(1)}</span>
             </div>
             <div className="flex items-center mt-2 text-gray-700 dark:text-gray-300">
               <Calendar className="h-5 w-5 mr-2 text-gray-500" />
