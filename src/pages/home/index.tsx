@@ -4,10 +4,10 @@ import { NavBar } from "../../components/navbar";
 
 export function Home(){
   return(
-    <div>
+    <>
       <NavBar/>
       <MovieList/>
       <Footer/> 
-    </div>
+    </>
   )
 }

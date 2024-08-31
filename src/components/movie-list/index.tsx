@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 interface IMoviesListProps {
   id: number;
@@ -12,6 +13,7 @@ interface IMoviesListProps {
 }
 
 export function MovieList() {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState<IMoviesListProps[]>([]);
   useEffect(() => {
     const fetchMovies = async () => {
@@ -27,13 +29,18 @@ export function MovieList() {
     fetchMovies();
   }, []);
 
+  const redirectDetailsMovie = (movieId: number) => {
+    navigate(`movie/${movieId}`);
+  };
+  
   return (
-    <div className="p-4">
+    <div className="p-4 hover:cursor-pointer">
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {movies.map((movie) => (
           <li
             key={movie.id}
             className="bg-zinc-800 shadow-lg rounded-lg overflow-hidden"
+            onClick={() => redirectDetailsMovie(movie.id)}
           >
             <img
               src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
@@ -55,6 +62,9 @@ export function MovieList() {
                   <span className="inline-block bg-yellow-400 h-2 w-2 rounded-full"></span>
                   <span className="ml-1">Rating</span>
                 </div>
+              </div>
+              <div className="w-full bg-blue-900 rounded-md flex justify-center mt-5 h-10">
+                <button>Ver mais</button>
               </div>
             </div>
           </li>
