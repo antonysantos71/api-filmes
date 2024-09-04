@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
-import { Star } from "lucide-react";
+import { Search, Star } from "lucide-react";
 
 interface IMoviesListProps {
   id: number;
@@ -16,6 +16,7 @@ interface IMoviesListProps {
 export function MovieList() {
   const navigate = useNavigate();
   const [movies, setMovies] = useState<IMoviesListProps[]>([]);
+  const [search, setSearch] = useState<string>("");
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -33,15 +34,37 @@ export function MovieList() {
   const redirectDetailsMovie = (movieId: number) => {
     navigate(`movie/${movieId}`);
   };
-  
+
+  const handleSearchMovies = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    if (search === "") {
+      setMovies(movies);
+    } else {
+      const filteredMovies = movies.filter((movie) =>
+        movie.title.toLowerCase().includes(search.toLowerCase())
+      );
+      setMovies(filteredMovies);
+    }
+  };
+
   return (
     <div className="p-4 hover:cursor-pointer">
+      <div className="flex items-center justify-center mb-5">
+        <div className="w-1/3 bg-zinc-800 flex gap-3 p-2 items-center rounded-xl">
+          <Search className="size-5" />
+          <input
+            type="text"
+            placeholder="Search....."
+            className="w-full bg-transparent outline-0 border-b-2 border-blue-400"
+            onChange={handleSearchMovies}
+          />
+        </div>
+      </div>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {movies.map((movie) => (
           <li
             key={movie.id}
             className="bg-zinc-800 shadow-lg rounded-lg overflow-hidden"
-            onClick={() => redirectDetailsMovie(movie.id)}
           >
             <img
               src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
@@ -57,7 +80,7 @@ export function MovieList() {
               </p>
               <div className="flex items-center justify-between">
                 <span className="text-yellow-500 font-semibold text-md flex gap-1 items-center">
-                  <Star className="size-5"/>
+                  <Star className="size-5" />
                   {movie.vote_average.toFixed(1)}
                 </span>
                 <div className="bg-gray-200 rounded-full p-1 px-2 text-xs font-semibold text-gray-700">
@@ -66,7 +89,9 @@ export function MovieList() {
                 </div>
               </div>
               <div className="w-full bg-blue-900 rounded-md flex justify-center mt-5 h-10">
-                <button>Ver mais</button>
+                <button onClick={() => redirectDetailsMovie(movie.id)}>
+                  Ver mais
+                </button>
               </div>
             </div>
           </li>
